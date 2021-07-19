@@ -3,8 +3,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth - 100;
-canvas.height = window.innerHeight - 200;
+canvas.width = 600;
+canvas.height = 400;
 
 const CANVAS_DIM = {
     max_X: canvas.width,
@@ -20,6 +20,14 @@ const SETTINGS = {
     POINTS_COLOR: '#32323250',
     LINES_COLOR: '#32323210',
 }
+
+const CONTROLS_DOM = {
+    POINTS_NBR: document.getElementById('points_nbr'),
+    SHOW_POINTS: document.getElementById('show_points'),
+    SHOW_LINES: document.getElementById('show_lines'),
+}
+
+let controls_changed = false;
 
 // Generate random size for points
 
@@ -37,9 +45,10 @@ function randomSpeed() {
 
 // Create points list dynamically
 
-const points = [];
+let points = [];
 
 function initPoints() {
+    points = [];
     for (let i = 0; i < SETTINGS.POINTS_NBR; i++) {
         let point = {
             // x: i < 10 ? i * 60 : i * 60 - CANVAS_DIM.max_X,
@@ -72,6 +81,8 @@ function drawPoints() {
 // Draw lines between points
 
 function drawLines(current_point) {
+
+    points
     points.forEach(point => {
     })
 
@@ -124,8 +135,12 @@ function moveAllPoints() {
 
 function update() {
 
+    controls_changed && initPoints();
+
     // Clear the canvas
     ctx.clearRect(0, 0, CANVAS_DIM.max_X, CANVAS_DIM.max_Y);
+
+
 
     // Move points on the canvas
     moveAllPoints();
@@ -139,8 +154,25 @@ function update() {
     // Draw lines between points
     SETTINGS.SHOW_LINES && drawLinesAllPoints();
 
+    controls_changed = false;
+
     // Animate update function
     requestAnimationFrame(update);
 }
 
 update();
+
+// Handle DOM settings change
+
+CONTROLS_DOM.POINTS_NBR.addEventListener('change', () => {
+    SETTINGS.POINTS_NBR = CONTROLS_DOM.POINTS_NBR.value;
+    controls_changed = true;
+});
+
+CONTROLS_DOM.SHOW_POINTS.addEventListener('change', () => {
+    SETTINGS.SHOW_POINTS = CONTROLS_DOM.SHOW_POINTS.checked;
+});
+
+CONTROLS_DOM.SHOW_LINES.addEventListener('change', () => {
+    SETTINGS.SHOW_LINES = CONTROLS_DOM.SHOW_LINES.checked;
+});

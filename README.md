@@ -6,3 +6,5 @@ The points are **_generated_** with different **_movement speed_** and different
 This code will make the _points_ bounce back after **_exceeding_** the edges of the canvas with certain amount of space.
 <br><br>
 And we have also control over showing either the points moving or only the lines connecting them or both of them.
+<br><br>
+[_Live Preview_](https://random-points.netlify.app/)
